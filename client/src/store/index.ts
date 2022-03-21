@@ -1,15 +1,18 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+import three from './three/index';
+import ThreeConfig from './three/three-store';
+
+Vue.use(Vuex);
+
+export interface State {
+	threeConfig: ThreeConfig;
+	// rest of the app state
+}
 
 export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+	modules: {
+		three: three,
+	},
+});
