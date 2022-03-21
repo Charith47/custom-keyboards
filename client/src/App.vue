@@ -8,17 +8,19 @@
     </v-app-bar>
 
     <v-main>
-      <router-view/>
+        <Viewport></Viewport>
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-
+import Viewport from "@/components/Viewport.vue";
 export default Vue.extend({
   name: 'App',
-
+  components:{
+    Viewport
+  },
   data: () => ({
     //
   }),

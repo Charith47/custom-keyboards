@@ -1,13 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import three from './three/index';
-import ThreeConfig from './three/three-store';
+import three from './config/index';
+import Config from './config/config';
 
 Vue.use(Vuex);
 
 export interface State {
-	threeConfig: ThreeConfig;
+	threeConfig: Config;
 	// rest of the app state
 }
 
