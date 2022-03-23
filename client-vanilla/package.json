@@ -12,7 +12,10 @@
     "vite": "^2.8.0"
   },
   "dependencies": {
+    "@types/signals": "^1.0.1",
     "@types/three": "^0.138.0",
+    "js-logger": "^1.6.1",
+    "signals": "^1.0.0",
     "three": "^0.138.3"
   }
 }

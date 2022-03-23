@@ -7,12 +7,17 @@ class Viewport {
 
 	editor: Editor; // camera, scene
 
+	signals: Editor['signals'];
 	canvas: Element;
 	renderer: THREE.WebGLRenderer;
 	controls: OrbitControls;
 
 	private constructor(editor: Editor) {
 		this.editor = editor;
+		this.signals = editor.signals;
+
+		// add listners
+		this.signals.windowResized.add(this.onWindowResize);
 
 		this.canvas = document.createElement('div');
 		this.canvas.setAttribute('id', 'canvas');
@@ -49,12 +54,18 @@ class Viewport {
 	}
 
 	public animate() {
-		//console.log(this.animate)
 		requestAnimationFrame(() => {
 			this.animate();
 		});
 		this.controls.update();
 		this.renderer.render(this.editor.scene, this.editor.camera);
+	}
+
+	public onWindowResize() {
+		// do stuff
+        // set size
+        // set aspect ratio
+        console.log('Window resized')
 	}
 }
 

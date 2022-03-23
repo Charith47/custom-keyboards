@@ -18,6 +18,10 @@
 		const viewport = Viewport.getInstance(editor);
 
 		document.body.appendChild(viewport.canvas);
+
+		window.addEventListener('resize', function(){
+			editor.signals.windowResized.dispatch()
+		})
 	</script>
 
 	<style>
