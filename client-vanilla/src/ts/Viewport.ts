@@ -1,12 +1,15 @@
 import * as THREE from 'three';
 import { Editor } from './Editor';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 class Viewport {
 	static instance: Viewport;
 
 	editor: Editor; // camera, scene
+
 	canvas: Element;
 	renderer: THREE.WebGLRenderer;
+	controls: OrbitControls;
 
 	private constructor(editor: Editor) {
 		this.editor = editor;
@@ -14,10 +17,14 @@ class Viewport {
 		this.canvas = document.createElement('div');
 		this.canvas.setAttribute('id', 'canvas');
 
-
 		this.renderer = new THREE.WebGLRenderer();
 		this.renderer.setPixelRatio(1.0);
 		this.renderer.setSize(1920, 1080);
+
+		this.controls = new OrbitControls(
+			this.editor.camera,
+			this.renderer.domElement
+		);
 
 		let pointLight = new THREE.PointLight(0xffffff);
 		pointLight.position.set(75, 75, 75);
@@ -30,8 +37,8 @@ class Viewport {
 		this.editor.scene.add(cube);
 
 		this.canvas.appendChild(this.renderer.domElement);
-        console.log('child appended');
-        this.animate();
+		console.log('child appended');
+		this.animate();
 	}
 
 	static getInstance(editor: Editor): Viewport {
@@ -42,8 +49,11 @@ class Viewport {
 	}
 
 	public animate() {
-        //console.log(this.animate)
-		requestAnimationFrame(()=>{this.animate});
+		//console.log(this.animate)
+		requestAnimationFrame(() => {
+			this.animate();
+		});
+		this.controls.update();
 		this.renderer.render(this.editor.scene, this.editor.camera);
 	}
 }

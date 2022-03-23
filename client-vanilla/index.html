@@ -7,17 +7,23 @@
 		<title>Custom Keyboards</title>
 	</head>
 	<body>
-		<div id="app"></div>
+
 	</body>
 	<script type="module">
 		import * as THREE from 'three';
 		import { Editor } from './src/ts/Editor';
 		import { Viewport } from './src/ts/Viewport';
-		// import viewport
-		// append viewport to dom
+
 		const editor = Editor.getInstance();
 		const viewport = Viewport.getInstance(editor);
 
 		document.body.appendChild(viewport.canvas);
 	</script>
+
+	<style>
+		body{
+			margin: 0;
+			padding: 0;
+		}
+	</style>
 </html>
