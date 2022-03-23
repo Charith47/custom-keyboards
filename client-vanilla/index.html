@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Custom Keyboards</title>
+	</head>
+	<body>
+		<div id="app"></div>
+	</body>
+	<script type="module">
+		import * as THREE from 'three';
+		import { Editor } from './src/ts/Editor';
+		import { Viewport } from './src/ts/Viewport';
+		// import viewport
+		// append viewport to dom
+		const editor = Editor.getInstance();
+		const viewport = Viewport.getInstance(editor);
+
+		document.body.appendChild(viewport.canvas);
+	</script>
 </html>
