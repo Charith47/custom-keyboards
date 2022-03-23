@@ -64,10 +64,6 @@ class Viewport {
 	}
 
 	public onWindowResize() {
-		// do stuff
-		// set size
-		// set aspect ratio
-
 		const newWidth = window.innerWidth;
 		const newHeight = window.innerHeight;
 
