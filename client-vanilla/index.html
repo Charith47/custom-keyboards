@@ -19,7 +19,8 @@
 
 		document.body.appendChild(viewport.canvas);
 
-		window.addEventListener('resize', function(){
+		window.addEventListener('resize', function(e){
+			//console.log(e)
 			editor.signals.windowResized.dispatch()
 		})
 	</script>

@@ -17,14 +17,16 @@ class Viewport {
 		this.signals = editor.signals;
 
 		// add listners
-		this.signals.windowResized.add(this.onWindowResize);
+		this.signals.windowResized.add(() => {
+			this.onWindowResize();
+		});
 
 		this.canvas = document.createElement('div');
 		this.canvas.setAttribute('id', 'canvas');
 
 		this.renderer = new THREE.WebGLRenderer();
 		this.renderer.setPixelRatio(1.0);
-		this.renderer.setSize(1920, 1080);
+		this.renderer.setSize(window.innerWidth, window.innerHeight);
 
 		this.controls = new OrbitControls(
 			this.editor.camera,
@@ -63,9 +65,16 @@ class Viewport {
 
 	public onWindowResize() {
 		// do stuff
-        // set size
-        // set aspect ratio
-        console.log('Window resized')
+		// set size
+		// set aspect ratio
+
+		const newWidth = window.innerWidth;
+		const newHeight = window.innerHeight;
+
+		this.editor.camera.aspect = newWidth / newHeight;
+		this.editor.camera.updateProjectionMatrix();
+
+		this.renderer.setSize(newWidth, newHeight);
 	}
 }
 
