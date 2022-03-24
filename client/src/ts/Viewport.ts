@@ -107,11 +107,19 @@ class Viewport {
 		//let material = new THREE.MeshPhongMaterial({ color: 0x0000aa });
 		//let cube = new THREE.Mesh(geometry, material);
 
+		let geometry = new THREE.PlaneGeometry(50, 100);
+		let material = new THREE.MeshPhongMaterial({ color: 0xffffff });
+		let plane = new THREE.Mesh(geometry, material);
+
+		plane.rotateX(-1.5708)
+		plane.position.set(0,-0.85,0)
+
 		const loader = new Loader(this.editor);
 		loader.gltfLoad('keyboard-01');
 
 		this.editor.scene.add(pointLight);
 		//this.editor.scene.add(cube);
+		this.editor.scene.add(plane);
 
 		this.canvas.appendChild(this.renderer.domElement);
 		this.animate();
