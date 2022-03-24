@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { Editor } from './Editor';
+import { Loader } from './Loader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 class Viewport {
@@ -36,12 +37,15 @@ class Viewport {
 		let pointLight = new THREE.PointLight(0xffffff);
 		pointLight.position.set(75, 75, 75);
 
-		let geometry = new THREE.BoxGeometry(10, 20, 30);
-		let material = new THREE.MeshPhongMaterial({ color: 0x0000aa });
-		let cube = new THREE.Mesh(geometry, material);
+		//let geometry = new THREE.BoxGeometry(10, 20, 30);
+		//let material = new THREE.MeshPhongMaterial({ color: 0x0000aa });
+		//let cube = new THREE.Mesh(geometry, material);
+
+		const loader = new Loader(this.editor);
+		loader.gltfLoad('keyboard-01');
 
 		this.editor.scene.add(pointLight);
-		this.editor.scene.add(cube);
+		//this.editor.scene.add(cube);
 
 		this.canvas.appendChild(this.renderer.domElement);
 		console.log('child appended');
