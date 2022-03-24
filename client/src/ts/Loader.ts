@@ -19,7 +19,8 @@ class Loader {
 		this.gltfLoader.load(
 			`models/${resource}/scene.gltf`,
 			(gltf) => {
-				this.normalizeScale(gltf.scene, 100);
+				console.log(gltf);
+				this.normalizeScale(gltf.scene, 50);
 				this.scene.add(gltf.scene);
 			},
 			(xhr) => {

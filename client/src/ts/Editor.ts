@@ -8,7 +8,7 @@ const _DEFAULT_CAMERA = new THREE.PerspectiveCamera(
 	1000
 );
 _DEFAULT_CAMERA.name = 'Camrea';
-_DEFAULT_CAMERA.position.set(50, 50, 50);
+_DEFAULT_CAMERA.position.set(10, 10, 10);
 _DEFAULT_CAMERA.lookAt(new THREE.Vector3());
 
 const axesHelper = new THREE.AxesHelper(5);
@@ -48,7 +48,7 @@ class Editor {
 
 		return Editor.instance;
 	}
-    
+
 }
 
 export { Editor };
