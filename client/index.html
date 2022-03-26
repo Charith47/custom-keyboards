@@ -6,9 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Custom Keyboards</title>
 	</head>
-	<body>
-
-	</body>
+	<body></body>
 	<script type="module">
 		import * as THREE from 'three';
 		import { Editor } from './src/ts/Editor';
@@ -19,14 +17,18 @@
 
 		document.body.appendChild(viewport.canvas);
 
-		window.addEventListener('resize', function(e){
+		window.addEventListener('resize', function (e) {
 			//console.log(e)
-			editor.signals.windowResized.dispatch()
-		})
+			editor.signals.windowResized.dispatch();
+		});
+
+		document.addEventListener('mousemove', function (e) {
+			editor.signals.mouseMoved.dispatch(e);
+		},false);
 	</script>
 
 	<style>
-		body{
+		body {
 			margin: 0;
 			padding: 0;
 		}

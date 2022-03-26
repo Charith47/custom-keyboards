@@ -1,37 +1,35 @@
 import * as THREE from 'three';
 
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Editor } from './Editor';
+import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 class Loader {
-	scene: THREE.Scene;
 	reader: FileReader;
 	gltfLoader: GLTFLoader;
 
-	constructor(editor: Editor) {
-		this.scene = editor.scene;
+	constructor() {
 		this.reader = new FileReader();
 		this.gltfLoader = new GLTFLoader();
 	}
 
 	/**Loads gltf from modles/resource/*/
-	public gltfLoad(resource: String) {
-		this.gltfLoader.load(
-			`models/${resource}/scene.gltf`,
-			(gltf) => {
-				console.log(gltf);
-				this.normalizeScale(gltf.scene, 50);
-				this.scene.add(gltf.scene);
-			},
-			(xhr) => {
-				// TODO progress circle
-				console.log((xhr.loaded / xhr.total) * 100, '%');
-			},
-			(error) => {
-				// TODO notify user
-				console.log(error);
-			}
-		);
+	public gltfLoad(resource: String): Promise<GLTF> {
+		return new Promise((resolve, reject) => {
+			this.gltfLoader.load(
+				`models/${resource}/scene.gltf`,
+				(gltf) => {
+					this.normalizeScale(gltf.scene, 50);
+					resolve(gltf);
+				},
+				(xhr) => {
+					// TODO progress circle
+					console.log((xhr.loaded / xhr.total) * 100, '%');
+				},
+				(error) => {
+					// TODO notify user
+					reject(error);
+				}
+			);
+		});
 	}
 
 	/** Uniformly scales the model to normal size */

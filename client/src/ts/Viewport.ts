@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 
 import { Editor } from './Editor';
-import { Loader } from './Loader'; // move to editor
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
@@ -28,6 +27,10 @@ class Viewport {
 	// gui
 	gui: GUI;
 
+	// raycaster
+	intersectedObject: THREE.Object3D | null = null;
+	intersects: THREE.Intersection[] = [];
+
 	private constructor(editor: Editor) {
 		this.editor = editor;
 		this.signals = editor.signals;
@@ -35,6 +38,9 @@ class Viewport {
 		// add listners
 		this.signals.windowResized.add(() => {
 			this.onWindowResize();
+		});
+		this.signals.mouseMoved.add((e: MouseEvent) => {
+			this.onMouseMove(e);
 		});
 
 		this.canvas = document.createElement('div');
@@ -100,27 +106,6 @@ class Viewport {
 			this.renderer.domElement
 		);
 
-		let pointLight = new THREE.PointLight(0xffffff); // move to editor
-		pointLight.position.set(75, 75, 75);
-
-		//let geometry = new THREE.BoxGeometry(3, 3, 3);
-		//let material = new THREE.MeshPhongMaterial({ color: 0x0000aa });
-		//let cube = new THREE.Mesh(geometry, material);
-
-		let geometry = new THREE.PlaneGeometry(50, 100);
-		let material = new THREE.MeshPhongMaterial({ color: 0xffffff });
-		let plane = new THREE.Mesh(geometry, material);
-
-		plane.rotateX(-1.5708)
-		plane.position.set(0,-0.85,0)
-
-		const loader = new Loader(this.editor);
-		loader.gltfLoad('keyboard-01');
-
-		this.editor.scene.add(pointLight);
-		//this.editor.scene.add(cube);
-		this.editor.scene.add(plane);
-
 		this.canvas.appendChild(this.renderer.domElement);
 		this.animate();
 	}
@@ -150,6 +135,48 @@ class Viewport {
 
 		// set post processing sizes ?
 		this.renderer.setSize(newWidth, newHeight);
+	}
+
+	public onMouseMove(e: MouseEvent) {
+		const raycaster = new THREE.Raycaster();
+		const highlightedMaterial = new THREE.MeshBasicMaterial({
+			wireframe: true,
+			color: 0x00ff00,
+		});
+
+		raycaster.setFromCamera(
+			{
+				x: (e.clientX / this.renderer.domElement.clientWidth) * 2 - 1,
+				y: (e.clientY / this.renderer.domElement.clientHeight) * 2 + 1,
+			},
+			this.editor.camera
+		);
+
+		console.log('mousemouve');
+		console.log(this.intersects);
+
+		this.intersects = raycaster.intersectObjects(
+			this.editor.pickableObjects,
+			false
+		);
+
+		if (this.intersects.length > 0) {
+			this.intersectedObject = this.intersects[0].object;
+		} else {
+			this.intersectedObject = null;
+		}
+
+		this.editor.pickableObjects.forEach((object: THREE.Mesh, i) => {
+			if (
+				this.intersectedObject &&
+				this.intersectedObject.name === object.name
+			) {
+				this.editor.pickableObjects[i].material = highlightedMaterial;
+			} else {
+				this.editor.pickableObjects[i].material =
+					this.editor.originalMaterials[object.name];
+			}
+		});
 	}
 }
 
