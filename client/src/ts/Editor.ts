@@ -26,11 +26,6 @@ class Editor {
 	camera: THREE.PerspectiveCamera;
 	scene: THREE.Scene;
 
-	objects: Record<string, any> = {};
-
-	pickableObjects: THREE.Mesh[] = [];
-	originalMaterials: { [id: string]: THREE.Material | THREE.Material[] } = {};
-
 	private constructor() {
 		this.signals = {
 			windowResized: new Signal(),
@@ -57,38 +52,30 @@ class Editor {
 	}
 
 	public async setupScene() {
-		const loader = new Loader();
-
-		let cubeGeometry = new THREE.BoxGeometry(3, 3, 3);
+		let cubeGeometry = new THREE.BoxGeometry(3, 4, 3);
 		let cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x0000aa });
-		cubeMaterial.name = 'cubemat';
 		let cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-		cube.name = 'cube';
 
-		let geometry = new THREE.PlaneGeometry(50, 100);
-		let material = new THREE.MeshPhongMaterial({ color: 0xffffff });
-		let plane = new THREE.Mesh(geometry, material);
+		let planeGeometry = new THREE.PlaneGeometry(50, 100);
+		let planeMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
+		let plane = new THREE.Mesh(planeGeometry, planeMaterial);
+
+		let sphereGeometry = new THREE.SphereGeometry(2, 32, 32);
+		let sphereMaterial = new THREE.MeshPhongMaterial({ color: 0x00aa00 });
+		let sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+		sphere.position.set(3.5, -0.05, -1);
 
 		plane.rotateX(-1.5708);
-		plane.position.set(0, -0.85, 0);
+		plane.position.set(0, -2, 0);
 
 		let pointLight = new THREE.PointLight(0xffffff); // move to editor
 		pointLight.position.set(75, 75, 75);
 
-		const keyboard = await loader.gltfLoad('keyboard-01');
-
 		this.scene.add(cube);
-		this.scene.add(keyboard.scene);
 		this.scene.add(pointLight);
+		this.scene.add(sphere)
 		this.scene.add(plane);
-
-		this.scene.traverse((child) => {
-			if ((child as THREE.Mesh).isMesh) {
-				const mesh = child as THREE.Mesh;
-				this.pickableObjects.push(mesh);
-				this.originalMaterials[mesh.name] = (mesh as THREE.Mesh).material;
-			}
-		});
 	}
 }
 
