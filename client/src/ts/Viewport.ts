@@ -46,6 +46,8 @@ class Viewport {
 			//
 		});
 
+		//this.renderer.physicallyCorrectLights = true;
+
 		this.renderer.setPixelRatio(1.0);
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 

@@ -52,6 +52,8 @@ class Editor {
 	}
 
 	public async setupScene() {
+		const loader = new Loader();
+
 		let cubeGeometry = new THREE.BoxGeometry(3, 4, 3);
 		let cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x0000aa });
 		let cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
@@ -67,14 +69,17 @@ class Editor {
 		sphere.position.set(3.5, -0.05, -1);
 
 		plane.rotateX(-1.5708);
-		plane.position.set(0, -2, 0);
+		plane.position.set(0, -0.85, 0);
 
 		let pointLight = new THREE.PointLight(0xffffff); // move to editor
 		pointLight.position.set(75, 75, 75);
 
-		this.scene.add(cube);
+		const keyboard = await loader.gltfLoad('keyboard-01')
+
+		//this.scene.add(cube);
+		this.scene.add(keyboard.scene)
 		this.scene.add(pointLight);
-		this.scene.add(sphere)
+		//this.scene.add(sphere)
 		this.scene.add(plane);
 	}
 }
